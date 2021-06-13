@@ -1,0 +1,26 @@
+{
+  "name": "font-webapp",
+  "version": "0.0.0",
+  "description": "Framework for webapps demoing JavaScript-rendered fonts",
+  "main": "font-webapp.js",
+  "scripts": {
+    "prepare": "coffee --no-header -c font-webapp.coffee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edemaine/font-webapp.git"
+  },
+  "author": {
+    "name": "Erik Demaine",
+    "email": "edemaine@mit.edu",
+    "url": "http://erikdemaine.org/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/edemaine/font-webapp/issues"
+  },
+  "homepage": "https://github.com/edemaine/font-webapp#readme",
+  "devDependencies": {
+    "coffeescript": "^2.4.1"
+  }
+}
