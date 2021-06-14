@@ -6,9 +6,9 @@ This framework aims to make it easier to write font webapps in the style of
 In particular, the following webapps currently use font-webapp:
 
 * [Cube Folding Font](https://erikdemaine.org/fonts/cubefolding/)
-  ([code](https://erikdemaine.org/fonts/cubefolding/index.coffee))
+  ([code](https://github.com/edemaine/font-cubefolding))
 * [Impossible Folding Font](https://erikdemaine.org/fonts/impossible/)
-  ([code](https://erikdemaine.org/fonts/impossible/index.coffee))
+  ([code](https://github.com/edemaine/font-impossible/))
 
 These webapps have a common structure:
 
