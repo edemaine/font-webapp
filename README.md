@@ -55,6 +55,7 @@ methods:
 
 * `options`: the provided options object
 * `root`: DOM element referred to by `options.root`
+* `furls`: Furls instance
 * `update()`: Force rerendering of text
 * `downloadFile(filename, content, contentType)`: Cause the user to download a
   file with the specified `filename`, `content` (string), and `contentType`.
@@ -70,7 +71,9 @@ the following SVG-specific options:
 
 * `renderChar(char, state)` (**required**): a function that renders a given
   character into SVG and returns a glyph object with details for layout.
-  Called with `this` set to the `FontWebappSVG` instance.
+  Called with `this` set to the `FontWebappSVG` instance,
+  with `char` equal to a single-character string
+  and `state` equal to the latest result from `furls.getState()`.
   In particular, `this.renderGroup` is a group to render into,
   cleared between each text render.
   The returned glyph can be `null`/`undefined` to indicate "font doesn't have
