@@ -50,6 +50,15 @@ The following options can be specified for any derived class:
 * `Furls` (default `window.Furls`): reference to `Furls` class
   from [furls](https://github.com/edemaine/furls) library.
 
+In addition, a `FontWebapp` instance provides the following properties and
+methods:
+
+* `options`: the provided options object
+* `root`: DOM element referred to by `options.root`
+* `update()`: Force rerendering of text
+* `downloadFile(filename, content, contentType)`: Cause the user to download a
+  file with the specified `filename`, `content` (string), and `contentType`.
+
 ### FontWebappSVG
 
 `new FontWebappSVG(options)` creates a new reactive app with SVG font rendering.
@@ -84,3 +93,11 @@ the following SVG-specific options:
   Unless specified, space characters are handled like any other character.
 * `SVG` (default `window.SVG`): reference to `SVG` class from
   [SVG.js](https://svgjs.dev/).
+
+In addition, a `FontWebappSVG` instance provides the following properties and
+methods:
+
+* `svg`: an SVG.js instance
+* `downloadSVG(filename, content)`: Cause the user to download an SVG file
+  with the specified `filename` and `content` (string), where `content`
+  defaults to a raw dump of the current rendered SVG (`svg.svg()`).
