@@ -91,6 +91,11 @@ the following SVG-specific options:
     Default behavior is to translate the entire `element`.
 * `spaceWidth`: horizontal space to leave for a space character, in SVG units.
   Unless specified, space characters are handled like any other character.
+* `rootSVG`: DOM element or string query for DOM element for existing `<svg>`
+  element (within the `options.root` element) to use for rendering.
+  Use this if you want to predefine `<defs>` or `<symbol>`s or `<style>`
+  in the DOM.  Otherwise, a root `<svg>` element is created automatically
+  within the `options.root` element.
 * `SVG` (default `window.SVG`): reference to `SVG` class from
   [SVG.js](https://svgjs.dev/).
 
