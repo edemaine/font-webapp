@@ -52,6 +52,17 @@ The following options can be specified for any derived class:
   and `.syncClass()`.
 * `Furls` (default `window.Furls`): reference to `Furls` class
   from [furls](https://github.com/edemaine/furls) library.
+* `shouldRender(changed, state)`: a function that decides whether the text
+  needs to be rerendered from scratch, where `changed` is an object with a
+  key for each changed input (the argument from the
+  [furls `stateChange` event](https://github.com/edemaine/furls#events))
+  and `state` is the current state of all inputs (from `furls.getState()`).
+  The default behavior is "always render".
+  Often it is helpful to define this function as an OR of various `changed`
+  fields, such as `(changed) => changed.text || changed.puzzle`,
+  that require explicit rerendering, while in other cases, implicitly modify
+  the existing rendering using CSS classes from [furls class
+  synchronization](https://github.com/edemaine/furls#class-synchronization).
 
 In addition, a `FontWebapp` instance provides the following properties and
 methods:

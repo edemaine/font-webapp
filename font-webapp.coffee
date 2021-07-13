@@ -1,7 +1,7 @@
 class FontWebapp
   constructor: (@options) ->
-    unless @update?
-      console.warn "Abstract FontWebapp doesn't do any updating"
+    unless @render?
+      console.warn "Abstract FontWebapp doesn't do any rendering"
     unless @options?
       throw new Error "FontWebapp requires options argument"
     @furls = @options.furls
@@ -20,8 +20,13 @@ class FontWebapp
     window.addEventListener 'resize', @resize.bind @
     @resize()
     ## First and future renders
-    @furls.on 'stateChange', @update.bind @ if @update?
-    @update?()
+    if @render?
+      @furls.on 'stateChange', (changed) =>
+        state = @furls.getState()
+        if @options.shouldRender?
+          return unless @options.shouldRender.call @, changed, state
+        @render state
+      @render @furls.getState()
   resize: ->
     offset = getOffset @root
     height = Math.max (@options.minHeight ? 100), window.innerHeight - offset.y
@@ -45,8 +50,7 @@ class FontWebappSVG extends FontWebapp
     else
       @svg = SVGJS().addTo @root
     @renderGroup = @svg.group()
-  update: (changed) ->
-    state = @furls.getState()
+  render: (state) ->
     @renderGroup.clear()
     y = 0
     xmax = 0
