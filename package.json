@@ -1,6 +1,6 @@
 {
   "name": "font-webapp",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Framework for webapps demoing JavaScript-rendered fonts",
   "main": "font-webapp.js",
   "scripts": {

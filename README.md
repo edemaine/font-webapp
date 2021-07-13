@@ -39,7 +39,7 @@ This will make several top-level classes available:
 The following options can be specified for any derived class:
 
 * `root` (**required**): DOM element or string query for DOM element
-  (e.g. `"#output"`) for `div` that will contain the rendering.
+  (e.g. `"#output"`) for `<div>` that will contain the rendering.
   This element is automatically sized to fill the remainder of the screen
   (after whatever appears above the root element).
 * `minHeight` (default 100): minimum number of pixels for `root` element's
@@ -89,7 +89,7 @@ the following SVG-specific options:
   with `char` equal to a single-character string,
   `state` equal to the latest result from `furls.getState()`, and
   `target` equal to an SVG.js Group to render into
-  (equal to `this.renderGroup`, which is cleared for each render).
+  (equal to `this.renderGroup`).
   The returned glyph can be `null`/`undefined` to indicate "font doesn't have
   that character", or an object with the following properties:
   * `element` (**required**): an SVG.js object representing the glyph.
@@ -118,11 +118,75 @@ the following SVG-specific options:
   within the `options.root` element.
 * `SVG` (default `window.SVG`): reference to `SVG` class from
   [SVG.js](https://svgjs.dev/).
+* `minHeight` (default 100: minimum height for root element
 
 In addition, a `FontWebappSVG` instance provides the following properties and
 methods:
 
-* `svg`: an SVG.js instance
+* `svg`: an SVG.js instance.
+* `renderGroup`: an SVG.js Group where the text is currently rendered
+  (clearer for each render).
 * `downloadSVG(filename, content)`: Cause the user to download an SVG file
   with the specified `filename` and `content` (string), where `content`
   defaults to a raw dump of the current rendered SVG (`svg.svg()`).
+
+### FontWebappSVG
+
+`new FontWebappSVG(options)` creates a new reactive app with HTML font
+rendering, where
+
+* Each line is represented by a `<div class="line">` container.
+* Within each line, a glyph is represented by a `<div class="char">`
+  containing arbitrary content.
+* Within each line, a space is represented by a `<div class="space">`.
+
+`options` can be an object with any of the generic options above, plus
+the following SVG-specific options:
+
+* `renderChar(char, state, target)` (**required**): a function that renders a
+  given character into HTML and returns an arbitrary glyph object.
+  Called with `this` set to the `FontWebappSVG` instance,
+  with `char` equal to a single-character string,
+  `state` equal to the latest result from `furls.getState()`, and
+  `target` equal to an HTML element to render into.
+  The returned glyph can be `null`/`undefined` to indicate "font doesn't have
+  that character", or an arbitrary object.
+  Any rendered elements should be added to `target`, e.g., via
+  `target.appendChild(element)`.
+* `charWidth` (default `150`): horizontal size of every glyph
+  (`<div class="char">`), in px units.
+* `spaceWidth`: horizontal space to leave for a space character, in px units.
+  Unless specified, space characters are handled like any other character.
+* `charPadding` (default `0`): padding space to add around all sides of all
+  characters, in px units.
+* `charPaddingLeft`, `charPaddingRight`, `charPaddingTop`, `charPaddingBottom`
+  (default `0`): padding space to add around specific sides of all characters,
+  in px units.
+* `charKern` (default `0`): horizontal space to add between characters,
+  in px units.
+* `lineKern` (default `0`): vertical space to add between lines, in px units.
+* `sizeSlider`: DOM element or string query for DOM element (e.g. `"#size"`)
+  for `<div>` to add a full-width slider to that controls character size.
+  The initial value of the slider is `charWidth` (possibly clipped to be at
+  most the slider width); dragging the slider effectively scales all px sizes
+  above, including `charWidth`, `spaceWidth`, `charPadding*`, `charKern`, and
+  `lineKern`.
+* `slider`: visual configuration for the created `sizeSlider`, which consists
+  of a "thumb" that moves along a "track", plus a text label above it.
+  All of the following options are in px units unless otherwise specified.
+  * `text` (default `'Character size'`): label above the slider
+  * `textSize` (default `12`): font size for label
+  * `textGap` (default `2`): space between label and track
+  * `thumbBorderColor` (default `'#000'`): thumb outline color
+  * `thumbBorderRadius` (default `5`): thumb outline rounding
+  * `thumbBorderWidth` (default `2`): thumb outline thickness
+  * `thumbWidth` (default `15`): thumb horizontal size, including outline
+  * `thumbHeight` (default `30`): thumb vertical size, including outline
+  * `thumbShadow` (default `2`): thumb shadow size
+  * `trackBorderColor` (default `'#000'`): track outline color
+  * `trackBorderRadius` (default `2`): track outline rounding
+  * `trackBorderWidth` (default `1.4`): track outline thickness
+  * `trackHeight` (default `7`): track vertical size, including outline
+  * `trackColor` (default `'#bbb'`): track color
+  * `trackFocusColor` (default `'#c8c8c8'`): track color when focused (clicked)
+  * `trackShadow` (default `1`): track shadow size
