@@ -48,7 +48,8 @@ The following options can be specified for any derived class:
   For example, you might create symbols or groups for later rendering.
   Called with `this` set to the `FontWebapp` instance.
 * `furls`: an instance of `Furls` if you want to initialize it yourself.
-  By default, one is created and called with `.addInputs()` and `.syncState()`.
+  By default, one is created and called with `.addInputs()`, `.syncState()`,
+  and `.syncClass()`.
 * `Furls` (default `window.Furls`): reference to `Furls` class
   from [furls](https://github.com/edemaine/furls) library.
 

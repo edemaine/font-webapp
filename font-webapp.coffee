@@ -9,6 +9,7 @@ class FontWebapp
       @furls = (new (@options.Furls ? Furls))
       .addInputs()
       .syncState()
+      .syncClass()
     unless @options.root?
       throw new Error "FontWebapp requires 'root' option"
     ## DOM initialization
