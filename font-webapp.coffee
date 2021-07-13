@@ -57,7 +57,7 @@ class FontWebappSVG extends FontWebapp
       for char, c in line
         if char == ' ' and @options.spaceWidth?
           x += @options.spaceWidth
-        else if (glyph = @options.renderChar.call @, char, state)?
+        else if (glyph = @options.renderChar.call @, char, state, @renderGroup)?
           x += @options.charKern unless c == 0 if @options.charKern?
           glyph.element.translate x - (glyph.x ? 0), y - (glyph.y ? 0)
           row.push glyph

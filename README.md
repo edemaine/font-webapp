@@ -72,13 +72,13 @@ For this renderer, you need to include a `<script>` tag for `svg.js`
 `options` can be an object with any of the generic options above, plus
 the following SVG-specific options:
 
-* `renderChar(char, state)` (**required**): a function that renders a given
-  character into SVG and returns a glyph object with details for layout.
+* `renderChar(char, state, target)` (**required**): a function that renders a
+  given character into SVG and returns a glyph object with details for layout.
   Called with `this` set to the `FontWebappSVG` instance,
-  with `char` equal to a single-character string
-  and `state` equal to the latest result from `furls.getState()`.
-  In particular, `this.renderGroup` is a group to render into,
-  cleared between each text render.
+  with `char` equal to a single-character string,
+  `state` equal to the latest result from `furls.getState()`, and
+  `target` equal to an SVG.js Group to render into
+  (equal to `this.renderGroup`, which is cleared for each render).
   The returned glyph can be `null`/`undefined` to indicate "font doesn't have
   that character", or an object with the following properties:
   * `element` (**required**): an SVG.js object representing the glyph.
