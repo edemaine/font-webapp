@@ -11,6 +11,8 @@ In particular, the following webapps currently use font-webapp:
   ([code](https://github.com/edemaine/font-impossible/))
 * [Juggling Font](https://erikdemaine.org/fonts/juggling/)
   ([code](https://github.com/edemaine/font-juggling/))
+* [Spiral Galaxies Font](https://erikdemaine.org/fonts/spiralgalaxies/)
+  ([code](https://github.com/edemaine/font-spiralgalaxies))
 
 These webapps have a common structure:
 
