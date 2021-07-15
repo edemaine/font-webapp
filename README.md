@@ -42,8 +42,6 @@ The following options can be specified for any derived class:
   (e.g. `"#output"`) for `<div>` that will contain the rendering.
   This element is automatically sized to fill the remainder of the screen
   (after whatever appears above the root element).
-* `minHeight` (default 100): minimum number of pixels for `root` element's
-  vertical size.
 * `init()`: a function to call when the app is setup.
   For example, you might create symbols or groups for later rendering.
   Called with `this` set to the `FontWebapp` instance.
@@ -70,7 +68,7 @@ methods:
 * `options`: the provided options object
 * `root`: DOM element referred to by `options.root`
 * `furls`: Furls instance
-* `update()`: Force rerendering of text
+* `render()`: Force rerendering of text
 * `downloadFile(filename, content, contentType)`: Cause the user to download a
   file with the specified `filename`, `content` (string), and `contentType`.
 
@@ -118,14 +116,15 @@ the following SVG-specific options:
   within the `options.root` element.
 * `SVG` (default `window.SVG`): reference to `SVG` class from
   [SVG.js](https://svgjs.dev/).
-* `minHeight` (default 100: minimum height for root element
+* `minHeight` (default 100): minimum number of pixels for `root` element's
+  vertical size.
 
 In addition, a `FontWebappSVG` instance provides the following properties and
 methods:
 
 * `svg`: an SVG.js instance.
 * `renderGroup`: an SVG.js Group where the text is currently rendered
-  (clearer for each render).
+  (cleared for each render).
 * `downloadSVG(filename, content)`: Cause the user to download an SVG file
   with the specified `filename` and `content` (string), where `content`
   defaults to a raw dump of the current rendered SVG (`svg.svg()`).
