@@ -83,7 +83,7 @@
       return this.root.style.height = `${height}px`;
     }
 
-    render(state) {
+    render(state = this.furls.getState()) {
       var c, char, dy, glyph, i, j, k, len, len1, len2, line, margin, ref, ref1, ref2, ref3, ref4, row, shiftY, x, xmax, y;
       this.renderGroup.clear();
       y = 0;
@@ -293,7 +293,7 @@
         return this.sizeStyle.innerHTML = styles.join('\n');
       }
 
-      render(state) {
+      render(state = this.furls.getState()) {
         var c, char, chars, div, glyph, glyphs, i, j, len, len1, line, outputLine, ref, results;
         if (this.options.linkIdenticalChars != null) {
           chars = {};

@@ -51,7 +51,7 @@ class FontWebappSVG extends FontWebapp
     offset = getOffset @root
     height = Math.max (@options.minHeight ? 100), window.innerHeight - offset.y
     @root.style.height = "#{height}px"
-  render: (state) ->
+  render: (state = @furls.getState()) ->
     @renderGroup.clear()
     y = 0
     xmax = 0
@@ -244,7 +244,7 @@ class FontWebappHTML extends FontWebapp
       """
     styles.push ''
     @sizeStyle.innerHTML = styles.join '\n'
-  render: (state) ->
+  render: (state = @furls.getState()) ->
     chars = {} if @options.linkIdenticalChars?
     @root.innerHTML = '' ## clear previous children
     for line in state.text.split '\n'
