@@ -152,6 +152,10 @@ the following SVG-specific options:
   that character", or an arbitrary object.
   Any rendered elements should be added to `target`, e.g., via
   `target.appendChild(element)`.
+* `linkIdenticalChars(glyphs, char)`: a function to call with all rendered
+  glyphs (an array of `glyphs` as returned by `renderChar`) of the same
+  character `char`. This can be useful to link together multiple renderings
+  of the same character.
 * `charWidth` (default `150`): horizontal size of every glyph
   (`<div class="char">`), in px units.
 * `spaceWidth`: horizontal space to leave for a space character, in px units.
