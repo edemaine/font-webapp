@@ -47,7 +47,7 @@
       }
     }
 
-    downloadFile(filename, content, contentType) {
+    static downloadFile(filename, content, contentType) {
       if (this.downloadA == null) {
         this.downloadA = document.createElement('a');
         this.downloadA.id = 'download';
@@ -60,6 +60,10 @@
       this.downloadA.download = filename;
       this.downloadA.click();
       return this.downloadA.href = ''; // allow garbage collection of blob
+    }
+
+    downloadFile(filename, content, contentType) {
+      return this.constructor.downloadFile(filename, content, contentType);
     }
 
   };

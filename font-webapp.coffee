@@ -28,7 +28,7 @@ class FontWebapp
           return unless @options.shouldRender.call @, changed, state
         @render state
       @render @furls.getState()
-  downloadFile: (filename, content, contentType) ->
+  @downloadFile: (filename, content, contentType) ->
     unless @downloadA?
       @downloadA = document.createElement 'a'
       @downloadA.id = 'download'
@@ -38,6 +38,8 @@ class FontWebapp
     @downloadA.download = filename
     @downloadA.click()
     @downloadA.href = ''  # allow garbage collection of blob
+  downloadFile: (filename, content, contentType) ->
+    @constructor.downloadFile filename, content, contentType
 
 class FontWebappSVG extends FontWebapp
   initDOM: ->

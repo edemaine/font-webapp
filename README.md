@@ -75,6 +75,8 @@ methods:
 * `render()`: Force rerendering of text
 * `downloadFile(filename, content, contentType)`: Cause the user to download a
   file with the specified `filename`, `content` (string), and `contentType`.
+  Also available as `FontWebapp.downloadFile()` in case you want to download
+  a file without/before creating a `FontWebapp` instance.
 
 ### FontWebappSVG
 
