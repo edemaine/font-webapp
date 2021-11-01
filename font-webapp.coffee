@@ -22,7 +22,7 @@ class FontWebapp
       @resize()
     ## First and future renders
     if @render?
-      @furls.on 'stateChange', (changed) =>
+      @furls.on 'stateChange', @furlsCallback = (changed) =>
         state = @furls.getState()
         if @options.shouldRender?
           return unless @options.shouldRender.call @, changed, state
@@ -40,6 +40,8 @@ class FontWebapp
     @downloadA.href = ''  # allow garbage collection of blob
   downloadFile: (filename, content, contentType) ->
     @constructor.downloadFile filename, content, contentType
+  destroy: ->
+    @furls.off 'stateChange', @furlsCallback if @furlsCallback?
 
 class FontWebappSVG extends FontWebapp
   initDOM: ->
@@ -88,6 +90,12 @@ class FontWebappSVG extends FontWebapp
       y: -margin
       width: xmax + 2*margin
       height: y + 2*margin
+  destroy: ->
+    super()
+    if @options.rootSVG?
+      @renderGroup.clear().remove()
+    else
+      @svg.clear().remove()
   downloadSVG: (filename, content = @svg.svg()) ->
     @downloadFile filename, content, 'image/svg+xml'
 
@@ -268,6 +276,10 @@ class FontWebappHTML extends FontWebapp
     if @options.linkIdenticalChars?
       for char, glyphs of chars
         @options.linkIdenticalChars glyphs, char
+  destroy: ->
+    super()
+    @root.innerHTML = ''
+    @sizeSlider.innerHTML = ''
 
 ## Based on https://stackoverflow.com/a/34014786/7797661
 getOffset = (el) ->

@@ -33,7 +33,7 @@
       }
       //# First and future renders
       if (this.render != null) {
-        this.furls.on('stateChange', (changed) => {
+        this.furls.on('stateChange', this.furlsCallback = (changed) => {
           var state;
           state = this.furls.getState();
           if (this.options.shouldRender != null) {
@@ -64,6 +64,12 @@
 
     downloadFile(filename, content, contentType) {
       return this.constructor.downloadFile(filename, content, contentType);
+    }
+
+    destroy() {
+      if (this.furlsCallback != null) {
+        return this.furls.off('stateChange', this.furlsCallback);
+      }
     }
 
   };
@@ -141,6 +147,15 @@
         width: xmax + 2 * margin,
         height: y + 2 * margin
       });
+    }
+
+    destroy() {
+      super.destroy();
+      if (this.options.rootSVG != null) {
+        return this.renderGroup.clear().remove();
+      } else {
+        return this.svg.clear().remove();
+      }
     }
 
     downloadSVG(filename, content = this.svg.svg()) {
@@ -336,6 +351,12 @@
           }
           return results;
         }
+      }
+
+      destroy() {
+        super.destroy();
+        this.root.innerHTML = '';
+        return this.sizeSlider.innerHTML = '';
       }
 
     };

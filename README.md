@@ -73,6 +73,7 @@ methods:
 * `root`: DOM element referred to by `options.root`
 * `furls`: Furls instance
 * `render()`: Force rerendering of text
+* `destroy()`: Destroy any DOM/SVG rendered by this webapp
 * `downloadFile(filename, content, contentType)`: Cause the user to download a
   file with the specified `filename`, `content` (string), and `contentType`.
   Also available as `FontWebapp.downloadFile()` in case you want to download
