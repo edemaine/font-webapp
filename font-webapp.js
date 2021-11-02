@@ -256,19 +256,43 @@
         this.sizeInput.value = this.charWidth;
         //# Set initial character size, which might be smaller if default is above
         //# max value for this screen width.
-        return this.updateSize();
+        this.updateSize();
+        //# Update size whenever input resizes.  This can happen outside of
+        //# window resize events e.g. because a scrollbar appears/disappears.
+        if (typeof ResizeObserver !== "undefined" && ResizeObserver !== null) {
+          this.resizeObserver = new ResizeObserver((entries) => {
+            var entry, i, len, results;
+            results = [];
+            for (i = 0, len = entries.length; i < len; i++) {
+              entry = entries[i];
+              if (entry.target === this.sizeInput) {
+                if (this.sizeResize(entry.borderBoxSize.inlineSize)) {
+                  results.push(this.updateSize());
+                } else {
+                  results.push(void 0);
+                }
+              }
+            }
+            return results;
+          });
+          return this.resizeObserver.observe(this.sizeInput);
+        }
       }
 
       resize() {
         //# Update input's max value to current screen width.
-        this.sizeResize();
-        //# In case this clipped input's value, resize.
-        return this.updateSize();
+        if (this.sizeResize()) {
+          //# In case this clipped input's value, resize.
+          return this.updateSize();
+        }
       }
 
-      sizeResize() {
-        var ref;
-        return (ref = this.sizeInput) != null ? ref.max = this.sizeInput.scrollWidth - this.slider.min : void 0;
+      sizeResize(width = this.sizeInput.getBoundingClientRect().width) {
+        var max, ref, ref1;
+        max = width - this.slider.min;
+        if ((this.sizeInput != null) && ((ref = this.sizeInput) != null ? ref.max : void 0) !== max) {
+          return (ref1 = this.sizeInput) != null ? ref1.max = max : void 0;
+        }
       }
 
       updateSize() {
@@ -354,9 +378,11 @@
       }
 
       destroy() {
+        var ref;
         super.destroy();
         this.root.innerHTML = '';
-        return this.sizeSlider.innerHTML = '';
+        this.sizeSlider.innerHTML = '';
+        return (ref = this.resizeObserver) != null ? ref.disconnect() : void 0;
       }
 
     };

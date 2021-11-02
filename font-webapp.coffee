@@ -209,13 +209,23 @@ class FontWebappHTML extends FontWebapp
     ## Set initial character size, which might be smaller if default is above
     ## max value for this screen width.
     @updateSize()
+    ## Update size whenever input resizes.  This can happen outside of
+    ## window resize events e.g. because a scrollbar appears/disappears.
+    if ResizeObserver?
+      @resizeObserver = new ResizeObserver (entries) =>
+        for entry in entries when entry.target == @sizeInput
+          if @sizeResize entry.borderBoxSize.inlineSize
+            @updateSize()
+      @resizeObserver.observe @sizeInput
   resize: ->
     ## Update input's max value to current screen width.
-    @sizeResize()
-    ## In case this clipped input's value, resize.
-    @updateSize()
-  sizeResize: ->
-    @sizeInput?.max = @sizeInput.scrollWidth - @slider.min
+    if @sizeResize()
+      ## In case this clipped input's value, resize.
+      @updateSize()
+  sizeResize: (width = @sizeInput.getBoundingClientRect().width) ->
+    max = width - @slider.min
+    if @sizeInput? and @sizeInput?.max != max
+      @sizeInput?.max = max
   updateSize: ->
     @charWidth = parseFloat @sizeInput.value if @sizeInput?
     scale = @charWidth / @options.charWidth
@@ -280,6 +290,7 @@ class FontWebappHTML extends FontWebapp
     super()
     @root.innerHTML = ''
     @sizeSlider.innerHTML = ''
+    @resizeObserver?.disconnect()
 
 ## Based on https://stackoverflow.com/a/34014786/7797661
 getOffset = (el) ->
