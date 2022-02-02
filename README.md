@@ -136,9 +136,9 @@ methods:
   with the specified `filename` and `content` (string), where `content`
   defaults to a raw dump of the current rendered SVG (`svg.svg()`).
 
-### FontWebappSVG
+### FontWebappHTML
 
-`new FontWebappSVG(options)` creates a new reactive app with HTML font
+`new FontWebappHTML(options)` creates a new reactive app with HTML font
 rendering, where
 
 * Each line is represented by a `<div class="line">` container.
@@ -151,7 +151,7 @@ the following SVG-specific options:
 
 * `renderChar(char, state, target)` (**required**): a function that renders a
   given character into HTML and returns an arbitrary glyph object.
-  Called with `this` set to the `FontWebappSVG` instance,
+  Called with `this` set to the `FontWebappHTML` instance,
   with `char` equal to a single-character string,
   `state` equal to the latest result from `furls.getState()`, and
   `target` equal to an HTML element to render into.
