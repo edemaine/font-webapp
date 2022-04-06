@@ -183,6 +183,9 @@ the following SVG-specific options:
   `lineKern`.
 * `sizeName`: `name` attribute for `<input type="range">` made by `sizeSlider`.
   This causes the size to be tracked by Furls and thus preserved in the URL.
+  If you use furls 0.8.0+, the size is automatically rounded to the nearest
+  integer for the URL, and changes from sliding are marked as "minor"
+  to prefer URL updates via `replaceState`.
 * `slider`: visual configuration for the created `sizeSlider`, which consists
   of a "thumb" that moves along a "track", plus a text label above it.
   All of the following options are in px units unless otherwise specified.
