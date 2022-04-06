@@ -165,6 +165,8 @@
   };
 
   FontWebappHTML = (function() {
+    var ref;
+
     class FontWebappHTML extends FontWebapp {
       initDOM() {
         var id, pseudo, ref, sliderStyle, text;
@@ -287,16 +289,20 @@
         }
       }
 
-      sizeResize(width = this.sizeInput.getBoundingClientRect().width) {
-        var max, ref, ref1;
-        max = width - this.slider.min;
-        if ((this.sizeInput != null) && ((ref = this.sizeInput) != null ? ref.max : void 0) !== max) {
+      sizeResize(width = (ref = this.sizeInput) != null ? ref.getBoundingClientRect().width : void 0) {
+        var max, ref1;
+        if (width) { // sizeInput exists and is visible
+          max = width - this.slider.min;
+        } else {
+          max = this.charWidth; // avoid capping desired size
+        }
+        if ((this.sizeInput != null) && this.sizeInput.max !== max) {
           return (ref1 = this.sizeInput) != null ? ref1.max = max : void 0;
         }
       }
 
       updateSize() {
-        var i, len, pad, prop, ref, scale, styles;
+        var i, len, pad, prop, ref1, scale, styles;
         if (this.sizeInput != null) {
           this.charWidth = parseFloat(this.sizeInput.value);
         }
@@ -309,9 +315,9 @@
 }
 .char > * { vertical-align: bottom; }`
         ];
-        ref = ['charPadding', 'charPaddingLeft', 'charPaddingRight', 'charPaddingTop', 'charPaddingBottom'];
-        for (i = 0, len = ref.length; i < len; i++) {
-          pad = ref[i];
+        ref1 = ['charPadding', 'charPaddingLeft', 'charPaddingRight', 'charPaddingTop', 'charPaddingBottom'];
+        for (i = 0, len = ref1.length; i < len; i++) {
+          pad = ref1[i];
           if (this.options[pad]) {
             prop = pad.replace(/^charP/, 'p').replace(/[LR]/, function(m) {
               return `-${m.toLowerCase()}`;
@@ -337,14 +343,14 @@
       }
 
       render(state = this.furls.getState()) {
-        var c, char, chars, div, glyph, glyphs, i, j, len, len1, line, outputLine, ref, results;
+        var c, char, chars, div, glyph, glyphs, i, j, len, len1, line, outputLine, ref1, results;
         if (this.options.linkIdenticalChars != null) {
           chars = {};
         }
         this.root.innerHTML = ''; //# clear previous children
-        ref = state.text.split('\n');
-        for (i = 0, len = ref.length; i < len; i++) {
-          line = ref[i];
+        ref1 = state.text.split('\n');
+        for (i = 0, len = ref1.length; i < len; i++) {
+          line = ref1[i];
           this.root.appendChild((outputLine = document.createElement('div')));
           outputLine.className = 'line';
           for (c = j = 0, len1 = line.length; j < len1; c = ++j) {
@@ -378,11 +384,11 @@
       }
 
       destroy() {
-        var ref;
+        var ref1;
         super.destroy();
         this.root.innerHTML = '';
         this.sizeSlider.innerHTML = '';
-        return (ref = this.resizeObserver) != null ? ref.disconnect() : void 0;
+        return (ref1 = this.resizeObserver) != null ? ref1.disconnect() : void 0;
       }
 
     };

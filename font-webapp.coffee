@@ -222,9 +222,12 @@ class FontWebappHTML extends FontWebapp
     if @sizeResize()
       ## In case this clipped input's value, resize.
       @updateSize()
-  sizeResize: (width = @sizeInput.getBoundingClientRect().width) ->
-    max = width - @slider.min
-    if @sizeInput? and @sizeInput?.max != max
+  sizeResize: (width = @sizeInput?.getBoundingClientRect().width) ->
+    if width  # sizeInput exists and is visible
+      max = width - @slider.min
+    else
+      max = @charWidth  # avoid capping desired size
+    if @sizeInput? and @sizeInput.max != max
       @sizeInput?.max = max
   updateSize: ->
     @charWidth = parseFloat @sizeInput.value if @sizeInput?
