@@ -4,10 +4,7 @@ class FontWebapp
       console.warn "Abstract FontWebapp doesn't do any rendering"
     unless @options?
       throw new Error "FontWebapp requires options argument"
-    ## DOM initialization
-    @root = findDOM @options.root
-    @initDOM?()
-    ## Furls initialization (after initDOM in case it made inputs)
+    ## Furls initialization
     @furls = @options.furls
     unless @furls?
       @furls = (new (@options.Furls ? Furls))
@@ -16,6 +13,9 @@ class FontWebapp
       .syncClass()
     unless @options.root?
       throw new Error "FontWebapp requires 'root' option"
+    ## DOM initialization (after Furls in case it wants to add inputs)
+    @root = findDOM @options.root
+    @initDOM?()
     ## Custom initialization
     @options.init?.call @
     ## Automatic resizing
@@ -135,7 +135,6 @@ class FontWebappHTML extends FontWebapp
     text.innerHTML = @slider.text
     @sizeSlider.appendChild (@sizeInput = document.createElement 'input')
     @sizeInput.type = 'range'
-    @sizeInput.name = @options.sizeName if @options.sizeName?
     @sizeInput.step = 'any'  # allow non-integer offsets from min
     @sizeInput.min = @slider.min =
       @slider.trackBorderRadius + @slider.thumbWidth / 2
@@ -220,6 +219,11 @@ class FontWebappHTML extends FontWebapp
           if @sizeResize entry.borderBoxSize.inlineSize
             @updateSize()
       @resizeObserver.observe @sizeInput
+    ## Furl tracking after value has been set
+    if @options.sizeName?
+      @sizeInput.name = @options.sizeName
+      @furls.addInput @sizeInput,
+        encode: (value) -> Math.round parseFloat value
   resize: ->
     ## Update input's max value to current screen width.
     if @sizeResize()
