@@ -171,12 +171,17 @@
 
     class FontWebappHTML extends FontWebapp {
       initDOM() {
-        var id, pseudo, ref, sliderStyle, text;
+        var base, id, pseudo, ref, sliderStyle, text;
         this.slider = Object.assign({}, this.sliderDefaults, this.options.slider);
         this.charClass = this.options.spaceClass || 'char';
         this.spaceClass = this.options.spaceClass || 'space';
         document.head.appendChild((this.sizeStyle = document.createElement('style')));
-        this.charWidth = (ref = this.options.charWidth) != null ? ref : 100;
+        if (this.options.sizeName != null) {
+          this.charWidth = typeof (base = this.furls).getParameterByName === "function" ? base.getParameterByName(this.options.sizeName) : void 0; // initialize charWidth according to URL
+        }
+        if (this.charWidth == null) {
+          this.charWidth = (ref = this.options.charWidth) != null ? ref : 100;
+        }
         if (!this.options.sizeSlider) {
           return this.updateSize();
         }
@@ -284,11 +289,16 @@
         //# Furl tracking after value has been set
         if (this.options.sizeName != null) {
           this.sizeInput.name = this.options.sizeName;
-          return this.furls.addInput(this.sizeInput, {
+          this.furls.addInput(this.sizeInput, {
             encode: function(value) {
               return Math.round(parseFloat(value));
             },
             minor: true
+          });
+          return this.furls.on('inputChange', (input) => {
+            if (input.dom === this.sizeInput) {
+              return this.updateSize();
+            }
           });
         }
       }

@@ -124,7 +124,9 @@ class FontWebappHTML extends FontWebapp
     @charClass = @options.spaceClass or 'char'
     @spaceClass = @options.spaceClass or 'space'
     document.head.appendChild (@sizeStyle = document.createElement 'style')
-    @charWidth = @options.charWidth ? 100
+    if @options.sizeName?  # initialize charWidth according to URL
+      @charWidth = @furls.getParameterByName? @options.sizeName
+    @charWidth ?= @options.charWidth ? 100
 
     return @updateSize() unless @options.sizeSlider
     @sizeSlider = findDOM @options.sizeSlider
@@ -225,6 +227,8 @@ class FontWebappHTML extends FontWebapp
       @furls.addInput @sizeInput,
         encode: (value) -> Math.round parseFloat value
         minor: true
+      @furls.on 'inputChange', (input) =>
+        @updateSize() if input.dom == @sizeInput
   resize: ->
     ## Update input's max value to current screen width.
     if @sizeResize()
