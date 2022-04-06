@@ -4,6 +4,10 @@ class FontWebapp
       console.warn "Abstract FontWebapp doesn't do any rendering"
     unless @options?
       throw new Error "FontWebapp requires options argument"
+    ## DOM initialization
+    @root = findDOM @options.root
+    @initDOM?()
+    ## Furls initialization (after initDOM in case it made inputs)
     @furls = @options.furls
     unless @furls?
       @furls = (new (@options.Furls ? Furls))
@@ -12,9 +16,7 @@ class FontWebapp
       .syncClass()
     unless @options.root?
       throw new Error "FontWebapp requires 'root' option"
-    ## DOM initialization
-    @root = findDOM @options.root
-    @initDOM?()
+    ## Custom initialization
     @options.init?.call @
     ## Automatic resizing
     if @resize?
@@ -126,13 +128,14 @@ class FontWebappHTML extends FontWebapp
 
     return @updateSize() unless @options.sizeSlider
     @sizeSlider = findDOM @options.sizeSlider
-    unless (id = @sizeSlider.getAttribute 'id')
-      @sizeSlider.setAttribute 'id', (id = 'sizeSlider')
+    unless (id = @sizeSlider.id)
+      @sizeSlider.id = id = 'sizeSlider'
     @sizeSlider.innerHTML = ''
     @sizeSlider.appendChild (text = document.createElement 'span')
     text.innerHTML = @slider.text
     @sizeSlider.appendChild (@sizeInput = document.createElement 'input')
     @sizeInput.type = 'range'
+    @sizeInput.name = @options.sizeName if @options.sizeName?
     @sizeInput.step = 'any'  # allow non-integer offsets from min
     @sizeInput.min = @slider.min =
       @slider.trackBorderRadius + @slider.thumbWidth / 2

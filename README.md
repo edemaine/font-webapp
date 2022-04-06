@@ -181,6 +181,8 @@ the following SVG-specific options:
   most the slider width); dragging the slider effectively scales all px sizes
   above, including `charWidth`, `spaceWidth`, `charPadding*`, `charKern`, and
   `lineKern`.
+* `sizeName`: `name` attribute for `<input type="range">` made by `sizeSlider`.
+  This causes the size to be tracked by Furls and thus preserved in the URL.
 * `slider`: visual configuration for the created `sizeSlider`, which consists
   of a "thumb" that moves along a "track", plus a text label above it.
   All of the following options are in px units unless otherwise specified.

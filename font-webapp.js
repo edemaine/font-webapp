@@ -11,6 +11,12 @@
       if (this.options == null) {
         throw new Error("FontWebapp requires options argument");
       }
+      //# DOM initialization
+      this.root = findDOM(this.options.root);
+      if (typeof this.initDOM === "function") {
+        this.initDOM();
+      }
+      //# Furls initialization (after initDOM in case it made inputs)
       this.furls = this.options.furls;
       if (this.furls == null) {
         this.furls = (new ((ref = this.options.Furls) != null ? ref : Furls)()).addInputs().syncState().syncClass();
@@ -18,11 +24,7 @@
       if (this.options.root == null) {
         throw new Error("FontWebapp requires 'root' option");
       }
-      //# DOM initialization
-      this.root = findDOM(this.options.root);
-      if (typeof this.initDOM === "function") {
-        this.initDOM();
-      }
+      //# Custom initialization
       if ((ref1 = this.options.init) != null) {
         ref1.call(this);
       }
@@ -179,14 +181,17 @@
           return this.updateSize();
         }
         this.sizeSlider = findDOM(this.options.sizeSlider);
-        if (!(id = this.sizeSlider.getAttribute('id'))) {
-          this.sizeSlider.setAttribute('id', (id = 'sizeSlider'));
+        if (!(id = this.sizeSlider.id)) {
+          this.sizeSlider.id = id = 'sizeSlider';
         }
         this.sizeSlider.innerHTML = '';
         this.sizeSlider.appendChild((text = document.createElement('span')));
         text.innerHTML = this.slider.text;
         this.sizeSlider.appendChild((this.sizeInput = document.createElement('input')));
         this.sizeInput.type = 'range';
+        if (this.options.sizeName != null) {
+          this.sizeInput.name = this.options.sizeName;
+        }
         this.sizeInput.step = 'any'; // allow non-integer offsets from min
         this.sizeInput.min = this.slider.min = this.slider.trackBorderRadius + this.slider.thumbWidth / 2;
         this.sizeInput.addEventListener('input', () => {
