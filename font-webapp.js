@@ -287,7 +287,8 @@
           return this.furls.addInput(this.sizeInput, {
             encode: function(value) {
               return Math.round(parseFloat(value));
-            }
+            },
+            minor: true
           });
         }
       }

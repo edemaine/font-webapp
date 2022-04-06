@@ -224,6 +224,7 @@ class FontWebappHTML extends FontWebapp
       @sizeInput.name = @options.sizeName
       @furls.addInput @sizeInput,
         encode: (value) -> Math.round parseFloat value
+        minor: true
   resize: ->
     ## Update input's max value to current screen width.
     if @sizeResize()
