@@ -227,6 +227,7 @@ class FontWebappHTML extends FontWebapp
       @furls.addInput @sizeInput,
         encode: (value) -> Math.round parseFloat value
         minor: true
+        defaultValue: @charWidth
       @furls.on 'inputChange', (input) =>
         @updateSize() if input.dom == @sizeInput
   resize: ->

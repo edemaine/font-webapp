@@ -293,7 +293,8 @@
             encode: function(value) {
               return Math.round(parseFloat(value));
             },
-            minor: true
+            minor: true,
+            defaultValue: this.charWidth
           });
           return this.furls.on('inputChange', (input) => {
             if (input.dom === this.sizeInput) {
