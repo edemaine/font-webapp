@@ -26,10 +26,18 @@ class FontWebapp
     if @render?
       @furls.on 'stateChange', @furlsCallback = (changed) =>
         state = @furls.getState()
-        if @options.shouldRender?
-          return unless @options.shouldRender.call @, changed, state
-        @render state
+        if @options.shouldRender? and
+           not @options.shouldRender.call @, changed, state
+          @options.afterMaybeRender?.call @, state, changed, false
+        else
+          @render state, changed
       @render @furls.getState()
+  render: (state = @furls.getState(), changed) ->
+    @options.beforeRender?.call @, state
+    result = @doRender state
+    @options.afterRender?.call @, state
+    @options.afterMaybeRender?.call @, state, changed, true
+    result
   @downloadFile: (filename, content, contentType) ->
     unless @downloadA?
       @downloadA = document.createElement 'a'
@@ -57,8 +65,9 @@ class FontWebappSVG extends FontWebapp
     offset = getOffset @root
     height = Math.max (@options.minHeight ? 100), window.innerHeight - offset.y
     @root.style.height = "#{height}px"
-  render: (state = @furls.getState()) ->
+  doRender: (state) ->
     @renderGroup.clear()
+    @renderedGlyphs = []
     y = 0
     xmax = 0
     for line in state.text.split '\n'
@@ -72,6 +81,7 @@ class FontWebappSVG extends FontWebapp
           x += @options.charKern unless c == 0 if @options.charKern?
           glyph.element.translate x - (glyph.x ? 0), y - (glyph.y ? 0)
           row.push glyph
+          @renderedGlyphs.push glyph
           x += glyph.width
           xmax = Math.max xmax, x
           dy = Math.max dy, glyph.height
@@ -92,6 +102,7 @@ class FontWebappSVG extends FontWebapp
       y: -margin
       width: xmax + 2*margin
       height: y + 2*margin
+    @renderedGlyphs
   destroy: ->
     super()
     if @options.rootSVG?
@@ -280,8 +291,9 @@ class FontWebappHTML extends FontWebapp
       """
     styles.push ''
     @sizeStyle.innerHTML = styles.join '\n'
-  render: (state = @furls.getState()) ->
+  doRender: (state) ->
     chars = {} if @options.linkIdenticalChars?
+    @renderedGlyphs = []
     @root.innerHTML = '' ## clear previous children
     for line in state.text.split '\n'
       @root.appendChild (outputLine = document.createElement 'div')
@@ -294,6 +306,7 @@ class FontWebappHTML extends FontWebapp
         else if (glyph = @options.renderChar.call @, char, state, div)?
           div.className = 'char'
           outputLine.appendChild div
+          @renderedGlyphs.push glyph
           if @options.linkIdenticalChars?
             chars[char] ?= []
             chars[char].push glyph
@@ -302,6 +315,7 @@ class FontWebappHTML extends FontWebapp
     if @options.linkIdenticalChars?
       for char, glyphs of chars
         @options.linkIdenticalChars glyphs, char
+    @renderedGlyphs
   destroy: ->
     super()
     @root.innerHTML = ''

@@ -36,17 +36,31 @@
       //# First and future renders
       if (this.render != null) {
         this.furls.on('stateChange', this.furlsCallback = (changed) => {
-          var state;
+          var ref2, state;
           state = this.furls.getState();
-          if (this.options.shouldRender != null) {
-            if (!this.options.shouldRender.call(this, changed, state)) {
-              return;
-            }
+          if ((this.options.shouldRender != null) && !this.options.shouldRender.call(this, changed, state)) {
+            return (ref2 = this.options.afterMaybeRender) != null ? ref2.call(this, state, changed, false) : void 0;
+          } else {
+            return this.render(state, changed);
           }
-          return this.render(state);
         });
         this.render(this.furls.getState());
       }
+    }
+
+    render(state = this.furls.getState(), changed) {
+      var ref, ref1, ref2, result;
+      if ((ref = this.options.beforeRender) != null) {
+        ref.call(this, state);
+      }
+      result = this.doRender(state);
+      if ((ref1 = this.options.afterRender) != null) {
+        ref1.call(this, state);
+      }
+      if ((ref2 = this.options.afterMaybeRender) != null) {
+        ref2.call(this, state, changed, true);
+      }
+      return result;
     }
 
     static downloadFile(filename, content, contentType) {
@@ -95,9 +109,10 @@
       return this.root.style.height = `${height}px`;
     }
 
-    render(state = this.furls.getState()) {
+    doRender(state) {
       var c, char, dy, glyph, i, j, k, len, len1, len2, line, margin, ref, ref1, ref2, ref3, ref4, row, shiftY, x, xmax, y;
       this.renderGroup.clear();
+      this.renderedGlyphs = [];
       y = 0;
       xmax = 0;
       ref = state.text.split('\n');
@@ -118,6 +133,7 @@
             }
             glyph.element.translate(x - ((ref1 = glyph.x) != null ? ref1 : 0), y - ((ref2 = glyph.y) != null ? ref2 : 0));
             row.push(glyph);
+            this.renderedGlyphs.push(glyph);
             x += glyph.width;
             xmax = Math.max(xmax, x);
             dy = Math.max(dy, glyph.height);
@@ -143,12 +159,13 @@
         y += dy + ((ref3 = this.options.lineKern) != null ? ref3 : 0);
       }
       margin = (ref4 = this.options.margin) != null ? ref4 : 0;
-      return this.svg.viewbox({
+      this.svg.viewbox({
         x: -margin,
         y: -margin,
         width: xmax + 2 * margin,
         height: y + 2 * margin
       });
+      return this.renderedGlyphs;
     }
 
     destroy() {
@@ -365,11 +382,12 @@
         return this.sizeStyle.innerHTML = styles.join('\n');
       }
 
-      render(state = this.furls.getState()) {
-        var c, char, chars, div, glyph, glyphs, i, j, len, len1, line, outputLine, ref1, results;
+      doRender(state) {
+        var c, char, chars, div, glyph, glyphs, i, j, len, len1, line, outputLine, ref1;
         if (this.options.linkIdenticalChars != null) {
           chars = {};
         }
+        this.renderedGlyphs = [];
         this.root.innerHTML = ''; //# clear previous children
         ref1 = state.text.split('\n');
         for (i = 0, len = ref1.length; i < len; i++) {
@@ -385,6 +403,7 @@
             } else if ((glyph = this.options.renderChar.call(this, char, state, div)) != null) {
               div.className = 'char';
               outputLine.appendChild(div);
+              this.renderedGlyphs.push(glyph);
               if (this.options.linkIdenticalChars != null) {
                 if (chars[char] == null) {
                   chars[char] = [];
@@ -397,13 +416,12 @@
           }
         }
         if (this.options.linkIdenticalChars != null) {
-          results = [];
           for (char in chars) {
             glyphs = chars[char];
-            results.push(this.options.linkIdenticalChars(glyphs, char));
+            this.options.linkIdenticalChars(glyphs, char);
           }
-          return results;
         }
+        return this.renderedGlyphs;
       }
 
       destroy() {

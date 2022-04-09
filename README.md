@@ -65,6 +65,26 @@ The following options can be specified for any derived class:
   that require explicit rerendering, while in other cases, implicitly modify
   the existing rendering using CSS classes from [furls class
   synchronization](https://github.com/edemaine/furls#class-synchronization).
+  Called with `this` set to the `FontWebapp` instance.
+* `beforeRender(state)`: called before doing a render, with `this` set to the
+  `Furls` instance and `state` set to the current state of all inputs
+  (from `furls.getState()`).  When called, `this.renderedGlyphs` is still
+  the array of glyphs from the previous render.
+  You can use this to prepare for coming `renderChar` calls,
+  or to clean up a previous render.
+* `afterRender(state)`: called before doing a render, with `this` set
+  to the `Furls` instance and `state` set to the current state of all inputs
+  (from `furls.getState()`).  The array of the just-rendered glyphs is
+  available as `this.renderedGlyphs`.
+  You can use this to postprocess after the sequence of `renderChar` calls.
+* `afterMaybeRender(state, changed, rendered)`: similar to `afterRender`,
+  but called even if `shouldRender` returned false.
+  There are two additional objects: the `changed` object (see above)
+  and a boolean `rendered` indicating whether there was an actual render.
+  Useful e.g. to start/stop animations according to `state`, without animation
+  toggles requiring a rerender (`shouldRender` can still return `false`
+  but `afterMaybeRender` can still control the rendered glyphs).
+  Note that `changed` will be `undefined` if a render was forced via `render()`.
 
 In addition, a `FontWebapp` instance provides the following properties and
 methods:
@@ -72,7 +92,10 @@ methods:
 * `options`: the provided options object
 * `root`: DOM element referred to by `options.root`
 * `furls`: Furls instance
-* `render()`: Force rerendering of text
+* `render()`: Force rerendering of text.
+  Returns the array of rendered glyphs, as available in `renderedGlyphs`.
+* `renderedGlyphs`: The array of all rendered glyphs returned by `renderChar`
+  (see below) from the last render.
 * `destroy()`: Destroy any DOM/SVG rendered by this webapp
 * `downloadFile(filename, content, contentType)`: Cause the user to download a
   file with the specified `filename`, `content` (string), and `contentType`.
