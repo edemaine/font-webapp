@@ -13,6 +13,8 @@ In particular, the following webapps currently use font-webapp:
   ([code](https://github.com/edemaine/font-juggling/))
 * [Spiral Galaxies Font](https://erikdemaine.org/fonts/spiralgalaxies/)
   ([code](https://github.com/edemaine/font-spiralgalaxies))
+* [Sudoku Font](https://erikdemaine.org/fonts/sudoku/)
+  ([code](https://github.com/edemaine/font-sudoku))
 * [Tatamibari Font](https://erikdemaine.org/fonts/tatamibari/)
   ([code](https://github.com/edemaine/font-tatamibari))
 
