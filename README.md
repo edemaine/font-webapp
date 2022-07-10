@@ -83,8 +83,9 @@ The following options can be specified for any derived class:
   but called even if `shouldRender` returned false.
   There are two additional objects: the `changed` object (see above)
   and a boolean `rendered` indicating whether there was an actual render.
-  Useful e.g. to start/stop animations according to `state`, without animation
-  toggles requiring a rerender (`shouldRender` can still return `false`
+  Useful e.g. to start/stop animations or partially rerender existing glyphs
+  according to `state`, without these toggles requiring a rerender
+  (`shouldRender` can still return `false`
   but `afterMaybeRender` can still control the rendered glyphs).
   Note that `changed` will be `undefined` if a render was forced via `render()`.
 
