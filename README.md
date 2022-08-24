@@ -47,7 +47,14 @@ call to furls for you if you want.
 ## Usage
 
 You need to include `<script>` tags for `furls.js` and `font-webapp.js`.
-This will make several top-level classes available:
+For example:
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/furls@0.8.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/font-webapp@0.3.1"></script>
+```
+
+This will make several global classes available:
 
 ### FontWebapp
 
