@@ -97,7 +97,8 @@ The following options can be specified for any derived class:
   according to `state`, without these toggles requiring a rerender
   (`shouldRender` can still return `false`
   but `afterMaybeRender` can still control the rendered glyphs).
-  Note that `changed` will be `undefined` if a render was forced via `render()`.
+  Note that `changed` will be `undefined` if a render was forced via `render()`,
+  including during initial render.
 
 In addition, a `FontWebapp` instance provides the following properties and
 methods:

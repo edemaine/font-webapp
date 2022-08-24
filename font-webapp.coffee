@@ -32,6 +32,7 @@ class FontWebapp
         else
           @render state, changed
       @render @furls.getState()
+      @options.afterMaybeRender?.call @, @furls.getState(), undefined, false
   render: (state = @furls.getState(), changed) ->
     @options.beforeRender?.call @, state
     result = @doRender state

@@ -3,7 +3,7 @@
 
   FontWebapp = class FontWebapp {
     constructor(options) {
-      var ref, ref1;
+      var ref, ref1, ref2;
       this.options = options;
       if (this.render == null) {
         console.warn("Abstract FontWebapp doesn't do any rendering");
@@ -45,6 +45,9 @@
           }
         });
         this.render(this.furls.getState());
+        if ((ref2 = this.options.afterMaybeRender) != null) {
+          ref2.call(this, state, void 0, false);
+        }
       }
     }
 
