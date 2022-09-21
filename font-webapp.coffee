@@ -83,10 +83,10 @@ class FontWebappSVG extends FontWebapp
           row.push glyph
           @renderedGlyphs.push glyph
           x += glyph.width
-          xmax = Math.max xmax, x
           dy = Math.max dy, glyph.height
         else
           console.warn "Unrecognized character '#{char}'"
+        xmax = Math.max xmax, x
       ## Bottom alignment
       for glyph in row
         shiftY = dy - glyph.height
