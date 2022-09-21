@@ -96,6 +96,7 @@ class FontWebappSVG extends FontWebapp
           glyph.shiftY shiftY
         else
           glyph.element.transform (translateY: shiftY), true
+      dy += (@options.blankHeight ? 0) if line == ''
       y += dy
     margin = @options.margin ? 0
     @svg.viewbox

@@ -156,9 +156,13 @@ the following SVG-specific options:
     Default behavior is to translate the entire `element`.
 * `spaceWidth`: horizontal space to leave for a space character, in SVG units.
   Unless specified, space characters are handled like any other character.
+* `blankHeight`: vertical space to leave for a blank line, in SVG units.
+  Use this if you want nonblank lines to be immediately adjacent;
+  if you want to add space between all lines, use `lineKern`.
 * `charKern` (default `0`): horizontal space to add between characters,
   in SVG units.
 * `lineKern` (default `0`): vertical space to add between lines, in SVG units.
+  If you just want to add height to blank lines, use `blankHeight`.
 * `rootSVG`: DOM element or string query for DOM element for existing `<svg>`
   element (within the `options.root` element) to use for rendering.
   Use this if you want to predefine `<defs>` or `<symbol>`s or `<style>`
