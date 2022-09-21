@@ -70,7 +70,8 @@ class FontWebappSVG extends FontWebapp
     @renderedGlyphs = []
     y = 0
     xmax = 0
-    for line in state.text.split '\n'
+    for line, lineNum in state.text.split '\n'
+      y += (@options.lineKern ? 0) if lineNum > 0
       x = 0
       dy = 0
       row = []
@@ -95,7 +96,7 @@ class FontWebappSVG extends FontWebapp
           glyph.shiftY shiftY
         else
           glyph.element.transform (translateY: shiftY), true
-      y += dy + (@options.lineKern ? 0)
+      y += dy
     margin = @options.margin ? 0
     @svg.viewbox
       x: -margin
