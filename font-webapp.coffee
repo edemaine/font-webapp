@@ -44,10 +44,13 @@ class FontWebapp
       @downloadA.id = 'download'
       @downloadA.style.display = 'none'
       document.body.appendChild @downloadA
-    @downloadA.href = URL.createObjectURL new Blob [content], type: contentType
+    @downloadA.href = url = URL.createObjectURL new Blob [content],
+      type: contentType
     @downloadA.download = filename
-    @downloadA.click()
-    @downloadA.href = ''  # allow garbage collection of blob
+    @downloadA.click()  # synchronous
+    ## Allow garbage collection of blob
+    @downloadA.href = ''
+    URL.revokeObjectURL url
   downloadFile: (filename, content, contentType) ->
     @constructor.downloadFile filename, content, contentType
   destroy: ->
