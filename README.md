@@ -154,8 +154,15 @@ the following SVG-specific options:
   * `shiftY(shift)`: shift the `element` or some portion of it vertically
     by a specified `shift` in order to align the bottoms of glyphs.
     Default behavior is to translate the entire `element`.
+* `renderLine(line, state, target)` (**alternative** to `renderChar`):
+  a function that renders an entire `line` of text into SVG.
+  It can return an Array of glyphs, each as you would return from `renderChar`,
+  in which case they get rendered similarly; use this to e.g. process
+  ligatures or other context-sensitive characters.
+  Or it can return a single glyph for the line, if that is easier.
 * `spaceWidth`: horizontal space to leave for a space character, in SVG units.
   Unless specified, space characters are handled like any other character.
+  Works with `renderChar` but not `renderLine`.
 * `blankHeight`: vertical space to leave for a blank line, in SVG units.
   Use this if you want nonblank lines to be immediately adjacent;
   if you want to add space between all lines, use `lineKern`.

@@ -77,28 +77,47 @@ class FontWebappSVG extends FontWebapp
       y += (@options.lineKern ? 0) if lineNum > 0
       x = 0
       dy = 0
-      row = []
-      for char, c in line
-        if char == ' ' and @options.spaceWidth?
-          x += @options.spaceWidth
-        else if (glyph = @options.renderChar.call @, char, state, @renderGroup)?
-          x += @options.charKern unless c == 0 if @options.charKern?
-          glyph.element.translate x - (glyph.x ? 0), y - (glyph.y ? 0)
-          row.push glyph
-          @renderedGlyphs.push glyph
-          x += glyph.width
-          dy = Math.max dy, glyph.height
+      if @options.renderLine?
+        row = @options.renderLine.call @, line, state, @renderGroup
+        if Array.isArray row
+          for glyph, c in row
+            x += @options.charKern unless c == 0 if @options.charKern?
+            x += glyph.width
+            dy = Math.max dy, glyph.height
+            if row.element?  # leave y translation for row element
+              glyph.element?.translate x - (glyph.x ? 0), 0
+            else
+              glyph.element?.translate x - (glyph.x ? 0), y - (glyph.y ? 0)
+            @renderedGlyphs.push glyph
         else
-          console.warn "Unrecognized character '#{char}'"
-        xmax = Math.max xmax, x
-      ## Bottom alignment
-      for glyph in row
-        shiftY = dy - glyph.height
-        continue unless shiftY
-        if glyph.shiftY?
-          glyph.shiftY shiftY
-        else
-          glyph.element.transform (translateY: shiftY), true
+          @renderedGlyphs.push row
+        row.element?.translate 0, y - (row.y ? 0)
+        x = row.width if row.width?
+        dy = row.height if row.height?
+      else
+        row = []
+        for char, c in line
+          if char == ' ' and @options.spaceWidth?
+            x += @options.spaceWidth
+          else if (glyph = @options.renderChar.call @, char, state, @renderGroup)?
+            x += @options.charKern unless c == 0 if @options.charKern?
+            glyph.element.translate x - (glyph.x ? 0), y - (glyph.y ? 0)
+            row.push glyph
+            @renderedGlyphs.push glyph
+            x += glyph.width
+            dy = Math.max dy, glyph.height
+          else
+            console.warn "Unrecognized character '#{char}'"
+      xmax = Math.max xmax, x
+      ## Bottom alignment of glyphs on the row
+      if Array.isArray row
+        for glyph in row
+          shiftY = dy - glyph.height
+          continue unless shiftY
+          if glyph.shiftY?
+            glyph.shiftY shiftY
+          else
+            glyph.element.transform (translateY: shiftY), true
       dy += (@options.blankHeight ? 0) if line == ''
       y += dy
     margin = @options.margin ? 0
