@@ -91,7 +91,7 @@ class FontWebappSVG extends FontWebapp
             @renderedGlyphs.push glyph
         else
           @renderedGlyphs.push row
-        row.element?.translate 0, y - (row.y ? 0)
+        row.element?.translate 0 - (row.x ? 0), y - (row.y ? 0)
         x = row.width if row.width?
         dy = row.height if row.height?
       else
