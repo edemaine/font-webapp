@@ -9,6 +9,8 @@ In particular, the following webapps currently use font-webapp:
   ([code](https://github.com/edemaine/font-cubefolding))
 * [Impossible Folding Font](https://erikdemaine.org/fonts/impossible/)
   ([code](https://github.com/edemaine/font-impossible/))
+* [Integer Sequence Font](https://erikdemaine.org/fonts/sequence/)
+  ([code](https://github.com/edemaine/font-sequence/))
 * [Juggling Font](https://erikdemaine.org/fonts/juggling/)
   ([code](https://github.com/edemaine/font-juggling/))
 * [Orthogonal Fold &amp; Cut Font](https://erikdemaine.org/fonts/orthofoldcut/)
