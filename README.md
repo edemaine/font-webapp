@@ -19,12 +19,16 @@ In particular, the following webapps currently use font-webapp:
   ([code](https://github.com/edemaine/font-pathpuzzles))
 * [Spiral Galaxies Font](https://erikdemaine.org/fonts/spiralgalaxies/)
   ([code](https://github.com/edemaine/font-spiralgalaxies))
+* [Strip Folding Font](https://erikdemaine.org/fonts/strip/)
+  ([code](https://github.com/edemaine/font-strip))
+  [currently just uses furls]
 * [Sudoku Font](https://erikdemaine.org/fonts/sudoku/)
   ([code](https://github.com/edemaine/font-sudoku))
 * [Tatamibari Font](https://erikdemaine.org/fonts/tatamibari/)
   ([code](https://github.com/edemaine/font-tatamibari))
 * [Tetris Font](https://erikdemaine.org/fonts/tetris/)
   ([code](https://github.com/edemaine/font-tetris))
+  [currently just uses furls]
 * [Voronoi Font](https://erikdemaine.org/fonts/voronoi/)
   ([code](https://github.com/edemaine/font-voronoi))
 * [Yin-Yang Font](https://erikdemaine.org/fonts/yinyang/)
