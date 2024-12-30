@@ -178,6 +178,7 @@ the following SVG-specific options:
   in SVG units.
 * `lineKern` (default `0`): vertical space to add between lines, in SVG units.
   If you just want to add height to blank lines, use `blankHeight`.
+* `margin` (default `0`): space to add around the entire SVG bounding box
 * `rootSVG`: DOM element or string query for DOM element for existing `<svg>`
   element (within the `options.root` element) to use for rendering.
   Use this if you want to predefine `<defs>` or `<symbol>`s or `<style>`
