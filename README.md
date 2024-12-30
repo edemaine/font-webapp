@@ -5,6 +5,8 @@ This framework aims to make it easier to write font webapps in the style of
 
 In particular, the following webapps currently use font-webapp:
 
+* [Ada Font](https://erikdemaine.org/fonts/ada/)
+  ([code](https://github.com/edemaine/font-ada))
 * [Cube Folding Font](https://erikdemaine.org/fonts/cubefolding/)
   ([code](https://github.com/edemaine/font-cubefolding))
 * [Impossible Folding Font](https://erikdemaine.org/fonts/impossible/)
