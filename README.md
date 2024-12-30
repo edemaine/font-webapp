@@ -97,7 +97,7 @@ The following options can be specified for any derived class:
   the array of glyphs from the previous render.
   You can use this to prepare for coming `renderChar` calls,
   or to clean up a previous render.
-* `afterRender(state)`: called before doing a render, with `this` set
+* `afterRender(state)`: called after doing a render, with `this` set
   to the `Furls` instance and `state` set to the current state of all inputs
   (from `furls.getState()`).  The array of the just-rendered glyphs is
   available as `this.renderedGlyphs`.
